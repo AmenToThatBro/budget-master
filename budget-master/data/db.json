@@ -1,0 +1,30 @@
+{
+    "payments": [
+      {
+        "payer": "Chad's Handyman Service",
+        "amount": 320.59,
+        "date": "09-05-2023",
+        "id": 1
+      },
+      {
+        "payer": "Young's Suncoast Vacation Rentals",
+        "amount": 1259.00,
+        "date": "09/01/2023",
+        "id": 2
+      }
+    ],
+    "expenses": [
+      {
+        "account": "blah blah blah",
+        "amount": 2100.00,
+        "date": "09-05-2023",
+        "id": 1
+      },
+      {
+        "account": "hardees",
+        "amount": 15.97,
+        "date": "09-05-2023",
+        "id": 2
+      }
+    ]
+  }

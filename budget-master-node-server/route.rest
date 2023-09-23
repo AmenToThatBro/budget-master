@@ -1,0 +1,47 @@
+POST http://localhost:8000/transactions
+Content-Type: application/json
+
+{
+    "name": "Honda Vehicle Purchase",
+    "description": "Purchased a 2011 Honda CRV",
+    "amount": 13567.74,
+    "transactionDate": "2023-06-22T21:20:32.351Z"
+}
+
+###
+GET http://localhost:8000/transactions
+
+###
+GET http://localhost:8000/transactions/month
+Content-Type: application/json
+
+{
+    "month": 6
+}
+
+###
+GET http://localhost:8000/transactions/date-range
+Content-Type: application/json
+
+{
+    "beginDate": "March 3, 2023",
+    "endDate": "July 7, 2023"
+}
+
+###
+PATCH http://localhost:8000/transactions/64fe19d71e129a7b4f467ebd
+Content-Type: application/json
+
+{
+    "name": "Good Shit Under the Sun",
+    "transactionDate": "2023-06-09"
+}
+
+###
+GET http://localhost:8000/transactions/single/64fe19d71e129a7b4f467ebd
+
+###
+DELETE http://localhost:8000/transactions/
+
+###
+GET http://localhost:8000/transactions/params/transactionDate/2023-06-01/2023-07-01
