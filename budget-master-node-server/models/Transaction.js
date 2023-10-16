@@ -24,7 +24,8 @@ const transactionSchema = new Schema({
         required: false,
     },
     category: {
-        type: Array,
+        type: String,
+        required: true,
     },
     amount: {
         type: Number,

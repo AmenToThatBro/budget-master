@@ -1,33 +1,26 @@
 import Navbar from './Navbar';
 import Home from './Home';
-import Transaction from './Transaction';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Transaction from './Transactions';
+import { BrowserRouter, Routes, Route} from 'react-router-dom';
 
 function App() {
+  console.log("app loaded")
 
   return (
-    <Router>
-      <div className="App">
-        <Navbar />
-        <div className="content">
-          <Switch>
-            
-            <Route exact path="/">
-              <Home />
-            </Route>
-            
-            <Route path="/transaction">
-              <Transaction />
-            </Route>
+    <BrowserRouter>
+      <Navbar />
 
-            {/* <Route path="/expenses">
-              <Expense />
-            </Route> */}
+        <Routes>
 
-          </Switch>
-        </div>
-      </div>
-    </Router>
+          <Route path='/' element={<Home />}>
+          </Route>
+
+          <Route path='/transactions' element={<Transaction />}>
+
+          </Route>
+
+        </Routes>
+    </BrowserRouter>
   );
 }
 

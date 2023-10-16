@@ -14,6 +14,49 @@ router.get('/', async (req, res) => {
         res.status(500).json({ message: err.message })
     }
 })
+router.get('/income', async (req, res) => {
+    console.log('/transactions/income ... hit')
+    try {
+        const transactions = await Transaction.find().where({ category: 'income' });
+        res.json(transactions);
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+})
+router.get('/expense', async (req, res) => {
+    console.log('/transactions/expense ... hit')
+    try {
+        const transactions = await Transaction.find().where({ category: 'expense' });
+        res.json(transactions);
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+})
+router.get('/expense/:paramType:/:sortType', async (req, res) => {
+    const acceptedTypes = [
+        'asc',
+        'desc',
+    ]
+
+    const paramType = req.params.paramType;
+    const sortType = req.params.sortType;
+
+    if(acceptedTypes.includes(paramType)){
+        try{
+            const transaction = await Transaction.find()
+                .sort({ [paramType]: [sortType] })
+
+            res.json(transaction)
+        } catch (err) {
+            res.status(500).json({ message: err.message })
+        }
+    }
+    else {
+        res.json({ message: 'Lookup parameter is not an accepted value.'})
+    }
+
+
+})
 
 // Getting range based on paramType
 router.get('/params/:paramType/:param1/:param2', async (req, res) => {

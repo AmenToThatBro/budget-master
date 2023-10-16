@@ -42,20 +42,34 @@
 
 /* income previews / list */
 .transaction-preview {
+  display: grid;
+  grid-template-columns: 1.5fr .5fr .5fr .5fr .5fr;
+  overflow: hidden;
+ 
+}
+.transaction-preview > * {
   display: flex;
-  flex-direction: row;
-  flex-basis: auto;
-  justify-content: space-around;  
-  padding: 10px 16px;
-  margin: 20px 0;
-  border-top: 1px solid black;
-  border-bottom: 1px solid #fafafa;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  padding-block: .25em;
+  text-align: center;
 }
 .transaction-preview:hover {
   box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
 }
-.transaction-preview h2 {
-  font-size: 20px;
-  color: #f1356d;
-  margin-bottom: 8px;
+
+.table-header {
+  font-weight: 600;
+  background-color: lightgrey;
+}
+
+.transaction-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-inline: 2%;
+}
+
+.transaction-list {
+  padding: 2px;
 }

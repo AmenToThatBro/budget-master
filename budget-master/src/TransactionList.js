@@ -1,18 +1,23 @@
-const Transactionlist = ({ transaction }) => {
+import Moment from 'moment';
+import { useState } from 'react';
 
-    return (
-       <div className="transaction-list">
-            {transaction.map((item) => (
-                <div className="transaction-preview" key={item.id}>
-                    <h2>{ item.name }</h2>
-                    <h3>${ item.description }</h3>
-                    <h3>${ item.category }</h3>
-                    <h3>${ item.amount }</h3>
-                    <h4>{ item.transactionDate }</h4>
-                </div>
-            ) )}
-        </div>
-      );
+export default function TransactionList (props) {
+    const { transactions } = props;
+
+    
+        return (
+            <div className="transaction-list">
+                
+                    {transactions.map((item) => {
+                    return(
+                    <div className="transaction-preview" key={item._id}>
+                        <p>{ item.name }</p>
+                        <p>{ item.category }</p>
+                        <p>${ item.amount }</p>
+                        <p>{ Moment(Date.parse(item.transactionDate)).format('MM[/]DD[/]YY') }</p>
+                        <div><button>D</button><button>E</button><button>X</button></div>
+                    </div>)})}
+            </div>
+            
+    )
 }
- 
-export default Transactionlist;

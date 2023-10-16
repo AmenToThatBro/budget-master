@@ -1,3 +1,4 @@
+const cors = require('cors');
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
@@ -12,6 +13,10 @@ mongoose.connect(dbURI)
 app.use(express.urlencoded({ extended: true}));
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(cors({
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
 
 const transactionRouter = require('./routes/transactions');
 const userRouter = require('./routes/users');

@@ -1,49 +1,53 @@
-import { useState, useEffect} from 'react';
+import { useState} from 'react';
 
-// Custom Hooks
-// name must start with 'use'
+export default function useFetch(baseUrl) {
 
-const useFetch = (url) => {
+    // const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState('true');
 
-    const [data, setData] = useState(null);
-    const [isPending, setIsPending] = useState(true);
-    const [error, setError] = useState(null);
+    function get(url) {
+        return new Promise((resolve, reject) => {
+            fetch(baseUrl + url)
+                .then(response => response.json())
+                .then(data => {
+                    if (!data) {
+                        setLoading(false);
+                        return reject(data);
+                    }
+                    setLoading(false);
+                    resolve(data);
+                })
+                .catch(err => {
+                    setLoading(false);
+                    reject(err)
+                });
+        })
+    }
 
-    useEffect(() => {
-
-        const abortCont = new AbortController();
-        // not asynchronis
-        fetch(url, { signal: abortCont.signal })
-            // returns a response object
-            .then(res => {
-                if(!res.ok){
-                    throw Error('could not fetch the data for that resoure');
+    function post(url, body) {
+        return new Promise((resolve, reject) => {
+            fetch(baseUrl + url, {
+                method: 'post',
+                headers: {
+                    "Content-Type": 'application/json',
+                },
+                body: JSON.stringify(body)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data) {
+                    setLoading(false);
+                    return reject(data);
                 }
-                // convert response object into json and return
-                return res.json()
+                setLoading(false);
+                resolve(data);
             })
-                // take the json converted response object
-            .then((data) => {
-                console.log(data);
-                //update states
-                setData(data);
-                setIsPending(false);
-                setError(null);
+            .catch(err => {
+                setLoading(false);
+                reject(err);
             })
-            .catch((e) => {
-                if(e.name === 'AbortError') {
-                    console.log('fetch aborted');
-                } else {
-                    setIsPending(false);
-                    setError(e.message);
-                }
-                
-            })
+        })
+    }
 
-        return () => abortCont.abort();
-    }, [url]);
-    // return the data needed for the hook
-    return { data, isPending, error };
+    return { get, post, loading};
 }
-// export to use
-export default useFetch;
