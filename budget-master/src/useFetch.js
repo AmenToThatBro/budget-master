@@ -5,9 +5,15 @@ export default function useFetch(baseUrl) {
     // const [loading, setLoading] = useState(true);
     const [loading, setLoading] = useState('true');
 
-    function get(url) {
+    function get(url, body) {
         return new Promise((resolve, reject) => {
-            fetch(baseUrl + url)
+            fetch(baseUrl + url, {
+                method: 'get',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(body)
+            })
                 .then(response => response.json())
                 .then(data => {
                     if (!data) {
@@ -20,7 +26,7 @@ export default function useFetch(baseUrl) {
                 .catch(err => {
                     setLoading(false);
                     reject(err)
-                });
+                })
         })
     }
 
