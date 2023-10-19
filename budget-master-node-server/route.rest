@@ -1,3 +1,23 @@
+GET http://localhost:8000/transactions/range
+Content-Type: application/json
+
+{
+    "type": "amount",
+    "lowerRange": 2100,
+    "upperRange": 2200,
+    "sortBy": "desc"
+}
+###
+GET http://localhost:8000/transactions
+Content-Type: application/json
+
+{
+    "category": "expense",
+    "sortBy": "name",
+    "sortDirection": "desc"
+}
+
+###
 POST http://localhost:8000/transactions
 Content-Type: application/json
 
@@ -86,8 +106,3 @@ Content-Type: application/json
 ###
 GET http://localhost:8000/transactions/single/64fe19d71e129a7b4f467ebd
 
-###
-DELETE http://localhost:8000/transactions/
-
-###
-GET http://localhost:8000/transactions/params/transactionDate/2023-06-01/2023-07-01
