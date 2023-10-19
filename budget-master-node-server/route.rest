@@ -2,6 +2,16 @@ GET http://localhost:8000/transactions/range
 Content-Type: application/json
 
 {
+    "type": "transactionDate",
+    "lowerRange": "2023-01-01",
+    "upperRange": "2023-12-31",
+    "sortBy": "asc"
+}
+###
+GET http://localhost:8000/transactions/range
+Content-Type: application/json
+
+{
     "type": "amount",
     "lowerRange": 2100,
     "upperRange": 2200,
@@ -26,7 +36,7 @@ Content-Type: application/json
     "description": "Bi-Weekly Paycheck",
     "category": "income",
     "amount": 1148.34,
-    "transactionDate": "2023-09-28"
+    "transactionDate": "2022-09-28"
 }
 ###
 POST http://localhost:8000/transactions
@@ -95,12 +105,13 @@ Content-Type: application/json
 }
 
 ###
-PATCH http://localhost:8000/transactions/64fe19d71e129a7b4f467ebd
+PATCH http://localhost:8000/transactions/652c16415299dafdf75f528f
 Content-Type: application/json
 
 {
-    "name": "Good Shit Under the Sun",
-    "transactionDate": "2023-06-09"
+    "name": "Arby's",
+    "amount": 34.56,
+    "transactionDate": "2022-05-23"
 }
 
 ###

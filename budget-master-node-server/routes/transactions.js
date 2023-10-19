@@ -34,7 +34,6 @@ router.get('/', async (req, res) => {
 
 // Pulling a TYPE and grabbing a lower range and upper range.
 router.get('/range', async (req, res) => {
-    console.log('hit /range')
     
     const acceptedTypes = [
         'transactionDate',
@@ -44,7 +43,7 @@ router.get('/range', async (req, res) => {
     ]
 
     const { type, lowerRange, upperRange, sortBy } = req.body;
-    console.log(acceptedTypes.includes(type));
+
     if (acceptedTypes.includes(type)) {
         if(!sortBy) sortBy = 'asc';
         if(lowerRange && upperRange) {
@@ -63,31 +62,12 @@ router.get('/range', async (req, res) => {
     else res.status(300).json({ message: 'TYPE of request not accepted'})
 })
 
-// TODO //
-// Pulling an array of transactions for a specific time period based on a field parameter
-
-
-// router.get('/month', async (req, res) => {
-//     let month = req.body.month
-//     console.log(month)
-//      try {        
-//          // syntax find( expression: { equals: [ argument1, argument2 ] } )
-//         const transaction = await Transaction.find().where({ "$expr": { "$eq": [{ "$month": "$transactionDate" }, month] }});
-//         res.json(transaction)
-
-//      } catch (err) {
-//          res.status(500).json({ message: err.message })
-//      }
-// })
-
 // Getting one
-router.get('/single/:id', getTransaction, (req, res) => {
-    console.log('getting one')
+router.get('/:id', getTransaction, (req, res) => {
     res.json(res.transaction)
 })
 
 // Creating one
-
 router.post('/', async (req, res) => {
     const body = req.body;
     const transaction = new Transaction({        
@@ -100,18 +80,21 @@ router.post('/', async (req, res) => {
 
     try {
         const newTransaction = await transaction.save()
-        res.status(201).json(newTransaction)
+        res.status(200).json(newTransaction)
     } catch (err) {
         res.status(400).json({ message: err.message })
     }
 })
 
 // Updating One
-router.patch('/single/:id', getTransaction, async (req, res) => {
-    if (req.body.name != null) {
-        res.transaction.name = req.body.name,
-        res.transaction.transactionDate = req.body.transactionDate
+router.patch('/:id', getTransaction, async (req, res) => {
+    
+    if (req.body != null) {
+        for ([key, value] of Object.entries(req.body)) {
+            res.transaction[key] = value;
+        }
     }
+
     try {
         const updatedTransaction = await res.transaction.save()
         res.json(updatedTransaction)
@@ -121,7 +104,6 @@ router.patch('/single/:id', getTransaction, async (req, res) => {
 })
 
 // Deleting One
-
 router.delete('/single/:id', getTransaction, async (req, res) => {
     try {
         await res.transaction.deleteOne()
