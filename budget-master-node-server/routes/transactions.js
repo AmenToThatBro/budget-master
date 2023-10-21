@@ -6,19 +6,18 @@ const Transaction = require('../models/Transaction');
 // Either return all transactions or return a specific category of transactions custom sorted
 router.get('/', async (req, res) => {
 
-    if(!req.body) {
-        console.log('Body doesn\'t exist. returning all transactions')
-        try {
-            const transactions = await Transaction.find();
-            res.status(200).json(transactions);
-            return;
+    try {
+        const transactions = await Transaction.find();
+        res.status(200).json(transactions);
+        return;
 
-        }   catch (err) {
-            res.status(500).json({ message: err.message })
-        }        
-    }
-    
-    const {category, sortBy, sortDirection} = req.body;
+    }   catch (err) {
+        res.status(500).json({ message: err.message })
+    }        
+})
+
+router.post('/', async (req, res) => {
+    let {category, sortBy, sortDirection} = req.body;
 
     if(!category) {category = ''};
     if(!sortBy) {sortBy = 'name'};
@@ -30,7 +29,7 @@ router.get('/', async (req, res) => {
     } catch (err) {
          res.status(500).json({ message: err.message })
     }
-})
+}) 
 
 // Pulling a TYPE and grabbing a lower range and upper range.
 router.get('/range', async (req, res) => {
@@ -68,15 +67,10 @@ router.get('/:id', getTransaction, (req, res) => {
 })
 
 // Creating one
-router.post('/', async (req, res) => {
+router.post('/create', async (req, res) => {
     const body = req.body;
-    const transaction = new Transaction({        
-        name: body.name,
-        description: body.description,
-        category: body.category,
-        amount: body.amount,
-        transactionDate: body.transactionDate,
-    })
+
+    const transaction = new Transaction(body);
 
     try {
         const newTransaction = await transaction.save()
@@ -104,7 +98,7 @@ router.patch('/:id', getTransaction, async (req, res) => {
 })
 
 // Deleting One
-router.delete('/single/:id', getTransaction, async (req, res) => {
+router.delete('/:id', getTransaction, async (req, res) => {
     try {
         await res.transaction.deleteOne()
         res.json({ message: 'Deleted Transaction' })
@@ -127,6 +121,5 @@ async function getTransaction(req, res, next) {
     res.transaction = transaction
     next()
 }
-
 
 module.exports = router;

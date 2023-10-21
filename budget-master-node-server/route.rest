@@ -32,11 +32,7 @@ POST http://localhost:8000/transactions
 Content-Type: application/json
 
 {
-    "name": "Young's Suncoast Vacation Rentals",
-    "description": "Bi-Weekly Paycheck",
-    "category": "income",
-    "amount": 1148.34,
-    "transactionDate": "2022-09-28"
+    "category": "income"
 }
 ###
 POST http://localhost:8000/transactions
@@ -50,7 +46,7 @@ Content-Type: application/json
     "transactionDate": "2023-08-22"
 }
 ###
-POST http://localhost:8000/transactions
+POST http://localhost:8000/transactions/create
 Content-Type: application/json
 
 {
@@ -61,7 +57,7 @@ Content-Type: application/json
     "transactionDate": "2023-10-01"
 }
 ###
-POST http://localhost:8000/transactions
+POST http://localhost:8000/transactions/create
 Content-Type: application/json
 
 {
@@ -76,11 +72,11 @@ POST http://localhost:8000/transactions
 Content-Type: application/json
 
 {
-    "name": "Chad's Handyman Service",
+    "name": "Unit 287 Sidework",
     "description": "working with Dad",
     "category": "income",
-    "amount": 420.00,
-    "transactionDate": "2023-10-02"
+    "amount": 105,
+    "transactionDate": "2023-10-15"
 }
 
 
