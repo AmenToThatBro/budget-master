@@ -35,7 +35,7 @@ Content-Type: application/json
     "category": "income"
 }
 ###
-POST http://localhost:8000/transactions
+POST http://localhost:8000/transactions/create
 Content-Type: application/json
 
 {
@@ -68,7 +68,7 @@ Content-Type: application/json
     "transactionDate": "2023-08-22"
 }
 ###
-POST http://localhost:8000/transactions
+POST http://localhost:8000/transactions/create
 Content-Type: application/json
 
 {
