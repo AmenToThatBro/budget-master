@@ -4,27 +4,13 @@ import useFetch from './useFetch.js'
 
 export default function TransactionList (props) {
 
-    const {post, remove, patch, loading} = useFetch(`http://localhost:8000`)
-    
-    const [transactions, setTransactions] = useState([]);
+    const {post, remove, patch, loading} = useFetch(`http://localhost:8000`)    
     const [sortDirection, setSortDirection] = useState('asc');
     const [sortBy, setSortBy] = useState('transactionDate');
-
+    const {setTransactions, transactions, onSort, onDirection, dir} = props;
     const [editClicked, setEditClicked] = useState(false);
-    const [reload, setReload] = useState(false);
 
     let oldName, oldAmount, oldDate;
-
-    // Load initial transaction list for the component
-    useEffect(() => {
-        post(`/transactions/`, {
-            category: props.transactionType,
-            sortBy: sortBy,
-            sortDirection: sortDirection,
-        })
-        .then(data => setTransactions(data))
-        .catch(err => console.log(err.message))
-    }, [sortBy, sortDirection, reload])
 
     function handleDeleteClick (event) {
         // Grab the item ID
@@ -38,26 +24,15 @@ export default function TransactionList (props) {
     function handleSortButton(event) {
 
         const customSort = event.target.innerText.toLowerCase();
-        console.log(customSort)
         
         if(customSort === 'date'){
-            setSortBy('transactionDate');
+            onSort('transactionDate');
         }
-        else setSortBy(customSort);
+        else onSort(customSort);
         
 
-        if(sortDirection === 'asc') setSortDirection('desc')
-        else setSortDirection('asc')
-
-        const customBody = {
-            'category': props.transactionType,
-            'sortBy': sortBy,
-            'sortDirection': sortDirection
-        }
-
-        post('/transactions/', customBody)
-        .then(data => setTransactions(data))
-        .catch(err => console.log(err.message))
+        if(dir === 'asc') onDirection('desc')
+        else onDirection('asc')
     }
 
     function handleEditClick(event) {
@@ -121,9 +96,9 @@ export default function TransactionList (props) {
             const oldAmountElement = document.createElement('p');
             const oldDateElement = document.createElement('p');
             // Insert old information back into their innerText
-            oldNameElement.innerText = oldName;            
-            oldAmountElement.innerText = oldAmount;
-            oldDateElement.innerText = oldDate;            
+            oldNameElement.innerText = nameElement.placeholder;            
+            oldAmountElement.innerText = amountElement.placeholder;
+            oldDateElement.innerText = dateElement.placeholder;            
             // Replace inputs with original elements
             dateElement.replaceWith(oldDateElement);
             amountElement.replaceWith(oldAmountElement);
@@ -177,7 +152,7 @@ export default function TransactionList (props) {
         // Insert old information back those elements
         oldNameElement.innerText = nameElement.value;            
         oldAmountElement.innerText = `$${amountElement.value}`;
-        oldDateElement.innerText = dateElement.value;            
+        oldDateElement.innerText = oldDate;            
         // Replace inputs with original elements
         dateElement.replaceWith(oldDateElement);
         amountElement.replaceWith(oldAmountElement);
@@ -191,8 +166,6 @@ export default function TransactionList (props) {
         oldName = '';
         oldAmount = '';
         oldDate = '';
-        // Initiate a reload of the list
-        setReload(!reload);
     }
     
     return (
@@ -203,7 +176,7 @@ export default function TransactionList (props) {
                 <button onClick={handleSortButton}>Amount</button>
                 <button onClick={handleSortButton}>Date</button>
                 <p></p>  
-            </div>                         
+            </div>
             {transactions.map((item) => {
                 return(
                     <div className='transaction-preview' key={ item._id } id={ item._id }>

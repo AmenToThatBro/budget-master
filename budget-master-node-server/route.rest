@@ -7,6 +7,9 @@ Content-Type: application/json
     "upperRange": "2023-12-31",
     "sortBy": "asc"
 }
+
+###
+GET http://localhost:8000/transactions/?p=7
 ###
 GET http://localhost:8000/transactions/range
 Content-Type: application/json

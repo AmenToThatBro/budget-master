@@ -5,9 +5,13 @@ const router = express.Router();
 const Transaction = require('../models/Transaction');
 // Either return all transactions or return a specific category of transactions custom sorted
 router.get('/', async (req, res) => {
+    const page = req.query.p || 0;
+    const transPerPage = 3;    
 
     try {
-        const transactions = await Transaction.find();
+        const transactions = await Transaction.find()
+        .skip(page * transPerPage)
+        .limit(transPerPage)
         res.status(200).json(transactions);
         return;
 

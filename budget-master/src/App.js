@@ -4,7 +4,6 @@ import Transaction from './Transactions';
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 
 function App() {
-  console.log("app loaded")
 
   return (
     <BrowserRouter>

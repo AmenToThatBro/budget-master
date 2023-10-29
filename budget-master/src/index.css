@@ -44,16 +44,21 @@
 .transaction-preview {
   display: grid;
   grid-template-columns: 1.5fr .5fr .5fr .5fr .5fr;
+  border: black solid 2px;
+  background: white;
  
 }
 .transaction-preview > * {
-  border: 1px solid black;
   padding-block: .25em;
   text-align: center;
 }
 .transaction-preview > input {
+  color: black;
+  border: green dotted 2px;
+  font-size: .99em;
   min-width: 0;
   background: lightgrey;
+
 }
 
 .transaction-preview:hover {
@@ -68,8 +73,54 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin-inline: 2%;
+  gap: 5px;
+  position: relative;
 }
 
 .transaction-list {
   padding: 2px;
+}
+
+.popup-window {
+  z-index: 10;
+  position: absolute;
+  left: 30%;
+  right: 30%;
+  top: 5px;
+  border-radius: 10px;
+  box-shadow: 5px 10px 5px 2px;
+}
+.hidden {
+  display: none;
+}
+.visible {
+  display: block;
+}
+
+.popup-header {
+  background: grey;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  padding-block: 10px;
+  border-bottom: black 1px solid;
+  padding-inline: 35%;
+}
+
+.popup-body {
+  background: lightgrey;
+  padding-block: 5px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding-inline-start: 10%;
+  padding-bottom: 5%;
+}
+.popup-body > input, form {
+  background: lightgrey;
+  
+}
+.transaction-submit-btn {
+  background: limegreen;
+  color: white;
+  height: 40px;
+  border-radius: 10%;
 }
