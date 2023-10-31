@@ -44,23 +44,21 @@
 .transaction-preview {
   display: grid;
   grid-template-columns: 1.5fr .5fr .5fr .5fr .5fr;
-  border: black solid 2px;
   background: white;
+  justify-items: center;
+  align-items: center;
  
 }
+
 .transaction-preview > * {
   padding-block: .25em;
   text-align: center;
+
 }
 .transaction-preview > input {
   color: black;
-  border: green dotted 2px;
-  font-size: .99em;
-  min-width: 0;
-  background: lightgrey;
-
+  /* background: lightgrey; */
 }
-
 .transaction-preview:hover {
   box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
 }
@@ -123,4 +121,18 @@
   color: white;
   height: 40px;
   border-radius: 10%;
+}
+.trans-list-button {
+  width: 2em;
+  height: 2em;
+}
+
+.item-name {
+  width: 90%;
+  
+}
+.item-amount {
+  width: 50%;
+}
+.item-date {
 }
