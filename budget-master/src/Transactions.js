@@ -6,7 +6,7 @@ import useFetch from './useFetch.js'
 export default function Transactions() {
 
     const [windowVisible, setWindowVisible] = useState(false);
-    const { post } = useFetch('http://localhost:8000');
+    const { post, loading } = useFetch('http://localhost:8000');
     const [incomeTransactions, setIncomeTransactions] = useState([]);
     const [expenseTransactions, setExpenseTransactions] = useState([]);
     const [sortBy, setSortBy] = useState('transactionDate');
@@ -28,6 +28,7 @@ export default function Transactions() {
         })
         .then(data => setExpenseTransactions(data))
         .catch(err => console.log(err.message))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sortBy, sortDirection, windowVisible])
 
 
@@ -38,15 +39,16 @@ export default function Transactions() {
 
     return (
         <>
-            <button id="addTransactionButton" onClick={handleAddTransactionButton} disabled={false}>Add Transaction</button>
-            <div className='transaction-grid'>
+            <div className='transaction-grid' id='transaction-grid'>
+                <button className="add-trans-btn" id="add-trans-btn" onClick={handleAddTransactionButton} disabled={false}>Add Transaction</button>
+
                 {windowVisible && <AddTransactionWindow onWindowVisible={() => setWindowVisible(!windowVisible)} />}
                 <div id='income'>
-                    <TransactionList transactions={incomeTransactions} setTransactions={setIncomeTransactions} transType="income" onSort={setSortBy} onDirection={setSortDirection} by={sortBy} dir={sortDirection}></TransactionList>
+                    <TransactionList transactions={incomeTransactions} setTransactions={setIncomeTransactions} transType="income" onSort={setSortBy} onDirection={setSortDirection} by={sortBy} dir={sortDirection} loading={loading}></TransactionList>
                 </div>    
                 <div id='expense'>          
-                    <TransactionList transactions={expenseTransactions} setTransactions={setExpenseTransactions} transType="expense" onSort={setSortBy} onDirection={setSortDirection} by={sortBy} dir={sortDirection}></TransactionList>
-                </div>            
+                    <TransactionList transactions={expenseTransactions} setTransactions={setExpenseTransactions} transType="expense" onSort={setSortBy} onDirection={setSortDirection} by={sortBy} dir={sortDirection} loading={loading}></TransactionList>
+                </div>      
             </div>
         </>
       );

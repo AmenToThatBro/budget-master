@@ -38,18 +38,48 @@
   display: grid;
   grid-template-columns: auto;
 }
+.transaction-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-inline: 2%;
+  gap: 5px;
+  position: relative;
+}
+.transaction-grid > * {
+}
+#transaction-grid {
+  grid-template-areas:
+  "add add"
+  "left-list right-list";
+}
+#add-trans-btn { grid-area: add; }
+#income { grid-area: left-list; } #expense { grid-area: right-list; }
+.left-column-total { grid-area: left-total } .right-column-total { grid-area: right-total; }
 
+.add-trans-btn {
+  border-top-left-radius: 1em;
+  border-top-right-radius: 1em;
+  background-color: lightgreen;
+  border: none;
+  grid-column-start: span 2;
+  height: 100%;
+}
+.add-trans-btn:hover {
+  background-color: green;
+  color: white;
+  box-shadow: inset 1px 1px 1px 1px black;
+}
 
-/* income previews / list */
 .transaction-preview {
   display: grid;
   grid-template-columns: 1.5fr .5fr .5fr .5fr .5fr;
   background: white;
   justify-items: center;
   align-items: center;
- 
 }
-
+.transaction-preview:hover {
+  background: lightblue;
+}
 .transaction-preview > * {
   padding-block: .25em;
   text-align: center;
@@ -57,7 +87,6 @@
 }
 .transaction-preview > input {
   color: black;
-  /* background: lightgrey; */
 }
 .transaction-preview:hover {
   box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
@@ -67,16 +96,14 @@
   background-color: lightgrey;
 }
 
-.transaction-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin-inline: 2%;
-  gap: 5px;
-  position: relative;
-}
-
 .transaction-list {
-  padding: 2px;
+  padding: .25em;
+}
+.left-column-total {
+  height: 2em;
+}
+.right-column-total {
+  height: 2em;
 }
 
 .popup-window {
@@ -133,6 +160,4 @@
 }
 .item-amount {
   width: 50%;
-}
-.item-date {
 }
