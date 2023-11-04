@@ -1,17 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
+body,html {
+  margin: 0;
+  padding: 0;
+}
+
 * {
   margin: 0;
   font-family: "Quicksand";
   color: #333;
+  box-sizing: border-box;
 }
+
 .navbar {
-  padding: 20px;
   display: flex;
   align-items: center;
   max-width: 80vw;
   margin: 0 auto;
   border-bottom: 1px solid #f2f2f2;
+  background: blue;
+  height: 10%;
 }
 .navbar h1 {
   color: #f1356d;
@@ -27,49 +35,35 @@
 .navbar a:hover {
   color: #f1356d;
 }
-.content {
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 20px;
-}
 
-/* Home Grid */
-.homegrid{
-  display: grid;
-  grid-template-columns: auto;
-}
 .transaction-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin-inline: 2%;
   gap: 5px;
   position: relative;
-}
-.transaction-grid > * {
-}
-#transaction-grid {
   grid-template-areas:
   "add add"
-  "left-list right-list";
+  "list list"  
+  "total total";
+  border: 2px pink solid;
+  background: green;
+  height:100%;
 }
-#add-trans-btn { grid-area: add; }
-#income { grid-area: left-list; } #expense { grid-area: right-list; }
-.left-column-total { grid-area: left-total } .right-column-total { grid-area: right-total; }
+.full-list { grid-area: list; }
+.total { grid-area: total; }
 
 .add-trans-btn {
+  grid-area: add;
   border-top-left-radius: 1em;
   border-top-right-radius: 1em;
   background-color: lightgreen;
   border: none;
-  grid-column-start: span 2;
-  height: 100%;
+  height: 2em;
 }
 .add-trans-btn:hover {
   background-color: green;
   color: white;
   box-shadow: inset 1px 1px 1px 1px black;
 }
-
 .transaction-preview {
   display: grid;
   grid-template-columns: 1.5fr .5fr .5fr .5fr;
@@ -91,22 +85,15 @@
 .transaction-preview:hover {
   box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
 }
-.transaction-list {
-  padding: .25em;
-}
-.left-column-total {
-  height: 2em;
-}
-.right-column-total {
-  height: 2em;
-}
+
+
 .table-header {
   font-weight: 600;
-  background: lightgrey;
+  background: grey;
   padding-block: .5em;
 }
 .table-header:hover {
-  background: lightgrey;
+  background: grey;
   box-shadow: none;
 }
 
@@ -167,9 +154,10 @@
 }
 
 .category {
+  grid-area: category;
   width: 100%;
-  margin: auto;
   margin-bottom: .5em;
+  align-self: baseline;
 
 }
 .total {
@@ -179,4 +167,22 @@
 .total:hover {
   background: none;
   box-shadow: none;
+}
+.alternate {
+  background: lightgrey;
+}
+.item-list {
+  border: 1px solid black;
+  overflow-y: scroll;
+  height: fit-content;
+}
+.table-header-btn {
+  width: 99%;
+  border-radius: 0;
+}
+.full-list {
+  height: 90vh;
+}
+#root {
+  height: 100vh;
 }
