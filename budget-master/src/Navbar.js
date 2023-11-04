@@ -7,7 +7,7 @@ const Navbar = () => {
             <div className="links">
                 <Link to="/">Home</Link>
                 <Link to="/transactions">Transactions</Link>
-                <Link to='/bills'>Bills</Link>
+                <Link to='/bills'>Scheduled Transactions</Link>
                 <Link to="/month">Month-At-A-Glance</Link>
             </div>
         </nav>

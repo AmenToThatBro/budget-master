@@ -9,13 +9,13 @@ export default function AddTransactionWindow(props) {
     const [date, setDate] = useState('');
     const [category, setCategory] = useState('income');
     const { post } = useFetch('http://localhost:8000');
+    const { refresh, setRefresh } = props;
 
     function handleSubmit(e) {
 
         e.preventDefault();
 
         let body = {};
-        setCategory(document.getElementById('category').value)
 
         if(name && amount && date && category) {
             body.name = name;
@@ -33,6 +33,7 @@ export default function AddTransactionWindow(props) {
         
         document.getElementById('add-trans-btn').removeAttribute('disabled');
         props.onWindowVisible();
+        setRefresh(!refresh);
     }
 
     function handleCancel(e) {

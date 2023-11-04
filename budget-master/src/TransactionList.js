@@ -1,5 +1,5 @@
 import Moment from 'moment';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useFetch from './useFetch.js';
 
 export default function TransactionList (props) {
@@ -10,23 +10,38 @@ export default function TransactionList (props) {
     // If no category has been selected then no list will be displayed
     // Once a category has been selected the POST will go out to the API
 
-    const {remove, patch, post} = useFetch(`http://localhost:8000`)    
-    const {transactions, onSort, onDirection, dir, loading} = props;
+    const {remove, patch, post, loading} = useFetch(`http://localhost:8000`)    
+    const {refresh} = props;
     const [editClicked, setEditClicked] = useState(false);
     const [oldInfo, setOldInfo] = useState({});
+    const [transactions, setTransactions] = useState([]);
+    const [sort, setSort] = useState('transactionDate');
+    const [direction, setDirection] = useState('asc');
+    const [category, setCategory] = useState('income');
+    
+
+    //Populate list
+    useEffect(() => {
+        post('/transactions/', {
+            category: category,
+            sortBy: sort,
+            sortDirection: direction,
+        })
+        .then(data => setTransactions(data))
+        .catch(err => console.log(err.message))
+    }, [category, sort, direction, refresh])    
     
     function handleSortButton(event) {
 
         const customSort = event.target.innerText.toLowerCase();
         
         if(customSort === 'date'){
-            onSort('transactionDate');
+            setSort('transactionDate');
         }
-        else onSort(customSort);
-        
+        else setSort(customSort);
 
-        if(dir === 'asc') onDirection('desc')
-        else onDirection('asc')
+        if(direction === 'asc') setDirection('desc');
+        else setDirection('asc');
     }
     function handleEdit(event) {
         // Edit has been clicked
@@ -35,8 +50,8 @@ export default function TransactionList (props) {
         const parent = event.target.parentElement.parentElement;
 
         // Grab the correct children for the form fields
-        const dateElement = parent.childNodes[3];
-        const amountElement = parent.childNodes[2];
+        const dateElement = parent.childNodes[2];
+        const amountElement = parent.childNodes[1];
         const nameElement = parent.childNodes[0];
 
         let transInfo = {}       
@@ -79,8 +94,8 @@ export default function TransactionList (props) {
 
         // Grab the correct children for the form fields
         const nameElement = parent.childNodes[0];
-        const amountElement = parent.childNodes[2];
-        const dateElement = parent.childNodes[3];
+        const amountElement = parent.childNodes[1];
+        const dateElement = parent.childNodes[2];
 
         // Create the body object
         var body = {};
@@ -123,8 +138,8 @@ export default function TransactionList (props) {
         const parent = e.target.parentElement.parentElement;
 
         // Grab the correct children for the form fields
-        const dateElement = parent.childNodes[3];
-        const amountElement = parent.childNodes[2];
+        const dateElement = parent.childNodes[2];
+        const amountElement = parent.childNodes[1];
         const nameElement = parent.childNodes[0];         
         // Create elements that will replace the inputs
         const oldNameElement = document.createElement('p');
@@ -142,9 +157,12 @@ export default function TransactionList (props) {
     let sum = 0;
     return (
         <>  {loading && <div>LOADING...</div>}
+            <select className='category' defaultValue={'category'} onChange={(e) => setCategory(e.target.value)}>
+                <option value='income'>Income</option>
+                <option value='expense'>Expense</option>
+            </select>
             <div className='transaction-preview table-header'>
                 <button onClick={handleSortButton}>Name</button>
-                <button>Category</button>
                 <button onClick={handleSortButton}>Amount</button>
                 <button onClick={handleSortButton}>Date</button>
                 <p></p>  
@@ -154,7 +172,6 @@ export default function TransactionList (props) {
                 return(
                     <div className='transaction-preview' key={ item._id } id={ item._id }>
                         <p>{ item.name }</p>
-                        <p>{ item.category }</p>
                         <p>${ item.amount }</p>
                         <p>{ Moment(Date.parse(item.transactionDate)).format('MM[/]DD[/]YY') }</p>
                         <div>
@@ -172,7 +189,7 @@ export default function TransactionList (props) {
                 )
                 })
             }
-                    <div className="transaction-preview">
+                    <div className="transaction-preview total">
                         <div></div>
                         <div>Total</div>
                         <div>${sum}</div>

@@ -9,7 +9,7 @@
   padding: 20px;
   display: flex;
   align-items: center;
-  max-width: 600px;
+  max-width: 80vw;
   margin: 0 auto;
   border-bottom: 1px solid #f2f2f2;
 }
@@ -72,7 +72,7 @@
 
 .transaction-preview {
   display: grid;
-  grid-template-columns: 1.5fr .5fr .5fr .5fr .5fr;
+  grid-template-columns: 1.5fr .5fr .5fr .5fr;
   background: white;
   justify-items: center;
   align-items: center;
@@ -91,11 +91,6 @@
 .transaction-preview:hover {
   box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
 }
-.table-header {
-  font-weight: 600;
-  background-color: lightgrey;
-}
-
 .transaction-list {
   padding: .25em;
 }
@@ -104,6 +99,15 @@
 }
 .right-column-total {
   height: 2em;
+}
+.table-header {
+  font-weight: 600;
+  background: lightgrey;
+  padding-block: .5em;
+}
+.table-header:hover {
+  background: lightgrey;
+  box-shadow: none;
 }
 
 .popup-window {
@@ -160,4 +164,19 @@
 }
 .item-amount {
   width: 50%;
+}
+
+.category {
+  width: 100%;
+  margin: auto;
+  margin-bottom: .5em;
+
+}
+.total {
+  margin-top: .5em;
+  border: black solid 1px;
+}
+.total:hover {
+  background: none;
+  box-shadow: none;
 }
