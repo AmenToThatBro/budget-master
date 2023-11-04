@@ -1,14 +1,9 @@
 import Moment from 'moment';
 import { useState, useEffect } from 'react';
 import useFetch from './useFetch.js';
+import clsx from 'clsx';
 
 export default function TransactionList (props) {
-
-    // TODO
-    // Move transaction state down to this component. Have a category be selected from a dropdown
-    // That will determine what data will be requested from the API
-    // If no category has been selected then no list will be displayed
-    // Once a category has been selected the POST will go out to the API
 
     const {remove, patch, post, loading} = useFetch(`http://localhost:8000`)    
     const {refresh} = props;
@@ -18,7 +13,7 @@ export default function TransactionList (props) {
     const [sort, setSort] = useState('transactionDate');
     const [direction, setDirection] = useState('asc');
     const [category, setCategory] = useState('income');
-    
+    let isAlternate = false;
 
     //Populate list
     useEffect(() => {
@@ -29,6 +24,7 @@ export default function TransactionList (props) {
         })
         .then(data => setTransactions(data))
         .catch(err => console.log(err.message))
+        // eslint-disable-next-line
     }, [category, sort, direction, refresh])    
     
     function handleSortButton(event) {
@@ -156,21 +152,34 @@ export default function TransactionList (props) {
     }
     let sum = 0;
     return (
-        <>  {loading && <div>LOADING...</div>}
+        <><div className="full-list">{loading && <div>LOADING...</div>}
+            
             <select className='category' defaultValue={'category'} onChange={(e) => setCategory(e.target.value)}>
                 <option value='income'>Income</option>
                 <option value='expense'>Expense</option>
             </select>
+            
             <div className='transaction-preview table-header'>
-                <button onClick={handleSortButton}>Name</button>
-                <button onClick={handleSortButton}>Amount</button>
-                <button onClick={handleSortButton}>Date</button>
+                <button className='table-header-btn' onClick={handleSortButton}>Name</button>
+                <button className='table-header-btn' onClick={handleSortButton}>Amount</button>
+                <button className='table-header-btn' onClick={handleSortButton}>Date</button>
                 <p></p>  
             </div>
+            
+            <div className="item-list">
             {transactions.map((item) => {
+                let className = '';
+                if(isAlternate === false){
+                    className = `transaction-preview`
+                }
+                else {
+                    className = `transaction-preview alternate`
+                }
+                isAlternate = !isAlternate;
+
                 sum += item.amount;
                 return(
-                    <div className='transaction-preview' key={ item._id } id={ item._id }>
+                    <div className={className} key={ item._id } id={ item._id }>
                         <p>{ item.name }</p>
                         <p>${ item.amount }</p>
                         <p>{ Moment(Date.parse(item.transactionDate)).format('MM[/]DD[/]YY') }</p>
@@ -189,6 +198,7 @@ export default function TransactionList (props) {
                 )
                 })
             }
+            </div></div>
                     <div className="transaction-preview total">
                         <div></div>
                         <div>Total</div>
