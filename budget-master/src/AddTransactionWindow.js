@@ -68,9 +68,9 @@ export default function AddTransactionWindow(props) {
                     <textarea onChange={(e) => setDescription(e.target.value)} name='description' id="description" row='4' columns='100'></textarea><br /><br />
 
                     <label htmlFor='category'>Category</label><br />
-                    <select value='income' name='category' id='category' onChange={(e) => setCategory(e.target.value) }>
-                        <option value="income">Income</option>
-                        <option value='expense'>Expense</option>
+                    <select name='category' id='category' onChange={(e) => setCategory(e.target.value)} defaultValue={"income"} >
+                        <option value={"income"} >Income</option>
+                        <option value={'expense'}>Expense</option>
                     </select><br /><br />
 
                     <input className='transaction-submit-btn' type='submit' value="Create Transaction" />

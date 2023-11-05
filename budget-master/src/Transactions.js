@@ -18,12 +18,10 @@ export default function Transactions() {
                 <button className="add-trans-btn" id="add-trans-btn" onClick={handleAddTransactionButton} disabled={false}>Add Transaction</button>
 
                 {windowVisible && <AddTransactionWindow onWindowVisible={() => setWindowVisible(!windowVisible)} setRefresh={setRefresh} refresh={refresh}/>}
-                <div id='income' className='left-list transaction-bound'>
-                    <TransactionList refresh={refresh}></TransactionList>
-                </div>    
-                <div id='expense' className='right-list transaction-bound'>          
-                    <TransactionList refresh={refresh}></TransactionList>
-                </div>      
+                
+               <div className='full-list1'><TransactionList refresh={refresh}></TransactionList></div>
+
+               <div className='full-list2'><TransactionList refresh={refresh}></TransactionList></div>
             </div>
         </>
       );

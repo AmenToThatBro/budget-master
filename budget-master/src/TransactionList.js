@@ -13,6 +13,7 @@ export default function TransactionList (props) {
     const [sort, setSort] = useState('transactionDate');
     const [direction, setDirection] = useState('asc');
     const [category, setCategory] = useState('income');
+    const [dirArrow, setDirArrow] = useState(`&uarr;`);
     let isAlternate = false;
 
     //Populate list
@@ -25,8 +26,18 @@ export default function TransactionList (props) {
         .then(data => setTransactions(data))
         .catch(err => console.log(err.message))
         // eslint-disable-next-line
-    }, [category, sort, direction, refresh])    
+    }, [category, sort, direction, refresh])
     
+    function flipDirection() {
+        if(direction === 'asc')
+            setDirArrow(`&uarr;`)
+        else setDirArrow(`&darr;`) 
+    }
+    
+    //TODO
+    // sort direction indicator needs to be added to the buttons
+    // When you click on 'date' there should be an arrow indicating the direction of sort
+
     function handleSortButton(event) {
 
         const customSort = event.target.innerText.toLowerCase();
@@ -152,7 +163,8 @@ export default function TransactionList (props) {
     }
     let sum = 0;
     return (
-        <><div className="full-list">{loading && <div>LOADING...</div>}
+    <>
+        {loading && <div>LOADING...</div>}
             
             <select className='category' defaultValue={'category'} onChange={(e) => setCategory(e.target.value)}>
                 <option value='income'>Income</option>
@@ -160,9 +172,9 @@ export default function TransactionList (props) {
             </select>
             
             <div className='transaction-preview table-header'>
-                <button className='table-header-btn' onClick={handleSortButton}>Name</button>
-                <button className='table-header-btn' onClick={handleSortButton}>Amount</button>
-                <button className='table-header-btn' onClick={handleSortButton}>Date</button>
+                <button id='name' className='table-header-btn' onClick={handleSortButton}>Name</button>
+                <button id='amount' className='table-header-btn' onClick={handleSortButton}>Amount</button>
+                <button id='date' className='table-header-btn' onClick={handleSortButton}>Date</button>
                 <p></p>  
             </div>
             
@@ -198,13 +210,13 @@ export default function TransactionList (props) {
                 )
                 })
             }
-            </div></div>
-                    <div className="transaction-preview total">
-                        <div></div>
-                        <div>Total</div>
-                        <div>${sum}</div>
-                        <div></div>
-                        <div></div>
-                    </div>
-        </>)
+            </div>
+        <div className="transaction-preview total">
+            <div></div>
+            <div>Total</div>
+            <div>${sum}</div>
+            <div></div>
+            <div></div>
+        </div>
+    </>)
 }

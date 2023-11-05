@@ -1,6 +1,6 @@
 import Navbar from './Navbar';
 import Home from './Home';
-import Transaction from './Transactions';
+import Transactions from './Transactions';
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 
 function App() {
@@ -14,9 +14,9 @@ function App() {
           <Route path='/' element={<Home />}>
           </Route>
 
-          <Route path='/transactions' element={<Transaction />}>
-
+          <Route path='/transactions' element={<Transactions />}>
           </Route>
+          <Route path='/transactions2' element={<Transactions />}></Route>
 
         </Routes>
     </BrowserRouter>
