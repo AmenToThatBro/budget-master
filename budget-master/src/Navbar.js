@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
+
+    console.log('navbar rendered')
     return (
         <nav className="navbar">
             <h1>Budget Master</h1>

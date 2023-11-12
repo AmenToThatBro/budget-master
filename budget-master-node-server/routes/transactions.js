@@ -19,7 +19,11 @@ router.get('/', async (req, res) => {
         res.status(500).json({ message: err.message })
     }        
 })
-
+// Getting one
+router.get('/:id', getTransaction, (req, res) => {
+    console.log('hit')
+    res.json(res.transaction)
+})
 router.post('/', async (req, res) => {
     let {category, sortBy, sortDirection} = req.body;
 
@@ -64,12 +68,6 @@ router.get('/range', async (req, res) => {
     }
     else res.status(300).json({ message: 'TYPE of request not accepted'})
 })
-
-// Getting one
-router.get('/:id', getTransaction, (req, res) => {
-    res.json(res.transaction)
-})
-
 // Creating one
 router.post('/create', async (req, res) => {
     const body = req.body;
@@ -83,7 +81,6 @@ router.post('/create', async (req, res) => {
         res.status(400).json({ message: err.message })
     }
 })
-
 // Updating One
 router.patch('/:id', getTransaction, async (req, res) => {
     
@@ -100,7 +97,6 @@ router.patch('/:id', getTransaction, async (req, res) => {
         res.status(400).json({ message: err.message })
     }
 })
-
 // Deleting One
 router.delete('/:id', getTransaction, async (req, res) => {
     try {
@@ -110,7 +106,6 @@ router.delete('/:id', getTransaction, async (req, res) => {
         res.status(500).json({ message: err.message })
     }
 })
-
 async function getTransaction(req, res, next) {
     let transaction
     try {

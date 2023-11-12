@@ -6,8 +6,6 @@ body,html {
   height: 100vh;
   width: 100vw;
 }
-#root {  
-}
 * {
   margin: 0;
   font-family: "Quicksand";
@@ -20,7 +18,7 @@ body,html {
   max-width: 80vw;
   margin: 0 auto;
   border-bottom: 1px solid #f2f2f2;
-  height: 4em;
+  height: 10vh;
 }
 .navbar h1 {
   color: #f1356d;
@@ -36,31 +34,23 @@ body,html {
 .navbar a:hover {
   color: #f1356d;
 }
-
 .transaction-grid {
   display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 5px;
-  position: relative;
-  grid-template-areas:
-  "add add"
-  "list1 list2"
-  "total total";
+  position: relative;  
   padding-inline: .5em;
-  width: 100vw;
-  height: 80vh;
+  height: 90vh;
 }
-.full-list1 { grid-area: list1; }
-.full-list2 { grid-area: list2; }
-.total { grid-area: total; }
-
 .add-trans-btn {
-  grid-area: add;
   border-radius: 2em;
-  /* border-top-left-radius: 1em;
-  border-top-right-radius: 1em; */
   background-color: lightgreen;
   border: none;
-  height: 100%;
+  height: 5vh;
+  grid-column: span 2;
+}
+.list {
+  height: 80vh;
 }
 .add-trans-btn:hover {
   background-color: green;
@@ -88,8 +78,6 @@ body,html {
 .transaction-preview:hover {
   box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
 }
-
-
 .table-header {
   font-weight: 600;
   background: grey;
@@ -158,9 +146,9 @@ body,html {
 }
 
 .category {
-  grid-area: category;
   width: 100%;
   margin-bottom: .5em;
+  height: 5vh;
 
 }
 .total {
@@ -175,17 +163,57 @@ body,html {
 }
 .item-list {
   border: 1px solid black;
+  height: 60vh;
   overflow-y: scroll;
-  height: 100%
-
 }
 .table-header-btn {
-  width: 99%;
+  width: 100%;
   border-radius: 0;
 }
-.full-list1, .full-list2 {
-  background: white;
-  height:80%;
-  width: 100%;
+.item-info {
+  display: grid;
+  padding-inline: 0;
+  padding-block: 1em;
+  margin-top: 1em;
+  margin-inline: 35%;
+  justify-content: center;
+  grid-template-areas:
+    "image name"
+    "amount amount"
+    "category category"
+    "date date"
+    "created created"
+    "updated updated";
+  background: darkgrey;
+  box-shadow: 2px 2px 4px 2px;
+  border-radius: .5em;
 }
+.name {
+  grid-area: name;
+  font-size: 1.5em;
+  justify-self: center;
+  align-self: center;
+  padding-left: 1em;
+} 
+.image {
+  grid-area: image;
+  justify-self: left;
+  margin-bottom: .5em;
+} 
+.amount {
+  grid-area: amount
+}
+.item-category {
+  grid-area: category;
+}
+.date {
+  grid-area: date
+} 
+.created {
+  grid-area: created
+} 
+.updated {
+  grid-area: updated
+}
+
 

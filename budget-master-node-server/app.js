@@ -2,9 +2,9 @@ const cors = require('cors');
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const app = express();
-const dbURI = 'mongodb+srv://joshcameronmorris:8Hus9ZEzANDatZXJ@tutorial.5mzgk58.mongodb.net/'
 
+const app = express();
+const dbURI = 'mongodb+srv://joshcameronmorris:8Hus9ZEzANDatZXJ@tutorial.5mzgk58.mongodb.net/';
 mongoose.connect(dbURI)
     .then((result) => app.listen(8000))
     .catch((err) => console.log(err));
@@ -23,9 +23,11 @@ app.use(cors(options));
 
 const transactionRouter = require('./routes/transactions');
 const userRouter = require('./routes/users');
+const uploadRouter = require('./routes/upload');
 
 app.use('/transactions', transactionRouter);
-app.use('/users', userRouter)
+app.use('/users', userRouter);
+app.use('/upload', uploadRouter);
 
 
 app.use((req, res) => {    

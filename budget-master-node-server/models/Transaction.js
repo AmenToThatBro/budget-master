@@ -36,6 +36,10 @@ const transactionSchema = new Schema({
         required: true,
         default: Date.now(),
     },
+    img: {
+        type: String,
+        required: false
+    },
     assignedUser: {
         type: mongoose.SchemaTypes.ObjectId,
     },

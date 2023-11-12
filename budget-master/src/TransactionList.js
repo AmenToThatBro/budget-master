@@ -1,12 +1,12 @@
 import Moment from 'moment';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useFetch from './useFetch.js';
 import clsx from 'clsx';
 
 export default function TransactionList (props) {
 
     const {remove, patch, post, loading} = useFetch(`http://localhost:8000`)    
-    const {refresh} = props;
     const [editClicked, setEditClicked] = useState(false);
     const [oldInfo, setOldInfo] = useState({});
     const [transactions, setTransactions] = useState([]);
@@ -14,6 +14,7 @@ export default function TransactionList (props) {
     const [direction, setDirection] = useState('asc');
     const [category, setCategory] = useState('income');
     const [dirArrow, setDirArrow] = useState(`&uarr;`);
+    const navigate = useNavigate();
     let isAlternate = false;
 
     //Populate list
@@ -26,14 +27,13 @@ export default function TransactionList (props) {
         .then(data => setTransactions(data))
         .catch(err => console.log(err.message))
         // eslint-disable-next-line
-    }, [category, sort, direction, refresh])
+    }, [category, sort, direction])
     
     function flipDirection() {
         if(direction === 'asc')
             setDirArrow(`&uarr;`)
         else setDirArrow(`&darr;`) 
-    }
-    
+    }    
     //TODO
     // sort direction indicator needs to be added to the buttons
     // When you click on 'date' there should be an arrow indicating the direction of sort
@@ -76,10 +76,10 @@ export default function TransactionList (props) {
         const date = Moment(transInfo.transactionDate).format('YYYY-MM-DD');
         newDateElement.setAttribute('type', 'date')
         newNameElement.setAttribute('value', transInfo.name)
-        newAmountElement.setAttribute('value', transInfo.amount)            
+        newAmountElement.setAttribute('value', transInfo.amount.slice(1))            
         newDateElement.setAttribute('value', date)
         newNameElement.setAttribute('class', 'item-name')
-        newAmountElement.setAttribute('class', 'item-amount')            
+        newAmountElement.setAttribute('class', 'item-amount')          
         newDateElement.setAttribute('class', 'item-date')
         // Replace with new elements
         dateElement.replaceWith(newDateElement)
@@ -127,7 +127,7 @@ export default function TransactionList (props) {
         else oldNameElement.innerText = nameElement.value;
 
         if(!body.amount) oldAmountElement.innerText = oldInfo.amount;
-        else oldAmountElement.innerText = `${amountElement.value}`;
+        else oldAmountElement.innerText = `$${amountElement.value}`;
 
         if(!body.transactionDate) oldDateElement.innerText = oldInfo.transactionDate;
         else oldDateElement.innerText = Moment(dateElement.value).format('MM[/]DD[/]YY');            
@@ -161,11 +161,11 @@ export default function TransactionList (props) {
         amountElement.replaceWith(oldAmountElement);
         nameElement.replaceWith(oldNameElement);
     }
+    console.log('transaction list rendered')
     let sum = 0;
     return (
     <>
-        {loading && <div>LOADING...</div>}
-            
+            <div className='list'>
             <select className='category' defaultValue={'category'} onChange={(e) => setCategory(e.target.value)}>
                 <option value='income'>Income</option>
                 <option value='expense'>Expense</option>
@@ -192,7 +192,7 @@ export default function TransactionList (props) {
                 sum += item.amount;
                 return(
                     <div className={className} key={ item._id } id={ item._id }>
-                        <p>{ item.name }</p>
+                        <p onClick={()=> navigate(`/transaction/${item._id}`)}>{ item.name }</p>
                         <p>${ item.amount }</p>
                         <p>{ Moment(Date.parse(item.transactionDate)).format('MM[/]DD[/]YY') }</p>
                         <div>
@@ -217,6 +217,7 @@ export default function TransactionList (props) {
             <div>${sum}</div>
             <div></div>
             <div></div>
+        </div>
         </div>
     </>)
 }

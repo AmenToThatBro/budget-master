@@ -116,3 +116,5 @@ Content-Type: application/json
 ###
 GET http://localhost:8000/transactions/single/64fe19d71e129a7b4f467ebd
 
+###
+GET http://localhost:8000/upload

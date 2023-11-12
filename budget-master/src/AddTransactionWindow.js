@@ -1,21 +1,32 @@
 import { useState } from 'react';
-import useFetch from './useFetch.js'
+import useFetch from './useFetch.js';
+import { IKContext, IKUpload} from 'imagekitio-react';
 
 export default function AddTransactionWindow(props) {
+
 
     const [name, setName] = useState('');
     const [amount, setAmount] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState('');
     const [category, setCategory] = useState('income');
-    const { post } = useFetch('http://localhost:8000');
-    const { refresh, setRefresh } = props;
+    const { post, patch } = useFetch('http://localhost:8000');
+    const publicKey = 'public_Zu6cqVJ9z1L9QP/GLPo2+N653DU='
+    const authenticationEndpoint = 'http://localhost:8000/upload'
+    let urlEndpoint = 'https://ik.imagekit.io/AmenToThatBrother/'
+    let img = '';
+    const authenticator = () => {
+        return fetch(authenticationEndpoint)
+          .then((response) => response.json())
+          .then((data) => data);
+      };
 
     function handleSubmit(e) {
 
         e.preventDefault();
 
         let body = {};
+        
 
         if(name && amount && date && category) {
             body.name = name;
@@ -23,17 +34,18 @@ export default function AddTransactionWindow(props) {
             body.transactionDate = date;
             body.category = category;
             if(description) body.description = description;
+            if(img) body.img = img;
         }
         else return console.log('All transactions must include Name, Amount, and Date')
 
+        console.log(body)
+
         post('/transactions/create', body)
-        .then(response => response.json)
-        .then((data) => {console.log(data);})
+        .then(response => console.log(response))
         .catch(err => console.log(err.message))
         
         document.getElementById('add-trans-btn').removeAttribute('disabled');
         props.onWindowVisible();
-        setRefresh(!refresh);
     }
 
     function handleCancel(e) {
@@ -46,6 +58,14 @@ export default function AddTransactionWindow(props) {
         props.onWindowVisible();
 
     }
+    // On success patch the item document
+    function onSuccess(res) {
+        console.log('success', res)
+        img = res.url;
+    }
+    function onError(e) {
+        console.log('error', e)
+    }
 
     return (<>
         <div className="popup-window">
@@ -54,7 +74,7 @@ export default function AddTransactionWindow(props) {
             </div>
             <div className="popup-body">
                 <form onSubmit={handleSubmit}>
-
+                    
                     <label htmlFor='name'>Name</label><br />
                     <input name='name' type="text" onChange={(e) => setName(e.target.value)}/><br /><br />
 
@@ -71,7 +91,13 @@ export default function AddTransactionWindow(props) {
                     <select name='category' id='category' onChange={(e) => setCategory(e.target.value)} defaultValue={"income"} >
                         <option value={"income"} >Income</option>
                         <option value={'expense'}>Expense</option>
-                    </select><br /><br />
+                    </select>
+
+                    <label htmlFor='image'>Image</label><br />
+                    <IKContext publicKey={publicKey} urlEndpoint={urlEndpoint} authenticator={authenticator}>
+                        <IKUpload onSuccess={onSuccess} onError={onError} fileName="abc.jpg" tags={["tag1"]} useUniqueFileName={true} isPrivateFile= {false}></IKUpload>
+                    </IKContext>
+                    <br /><br />
 
                     <input className='transaction-submit-btn' type='submit' value="Create Transaction" />
                     <button className='transaction-cancel-btn' onClick={handleCancel}>Cancel</button>
